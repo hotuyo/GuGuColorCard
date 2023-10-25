@@ -19,15 +19,27 @@ QStringList ImageAnalyse::GrabPixelBit(QVariant image, int color_count) {
   cv::cvtColor(cv_image, cv_image, cv::COLOR_RGB2BGR);
   cv::Mat reshaped_image = cv_image.reshape(1, cv_image.cols * cv_image.rows);
   reshaped_image.convertTo(reshaped_image, CV_32F);
-  std::vector<int> labels;
   QStringList dominat_colors;
+  unsigned int seed = static_cast<unsigned int>(QDateTime::currentMSecsSinceEpoch());
   QFuture<void> future = QtConcurrent::run([=, &dominat_colors]() {
     cv::Mat centers;
     std::vector<int> labels;
-    cv::kmeans(reshaped_image, color_count, labels,
+    cv::RNG rng(seed);
+    std::vector<int> random_indices;
+    for (int i = 0; i < reshaped_image.rows; ++i) {
+      int random_index = rng.uniform(0, reshaped_image.rows);
+      random_indices.push_back(random_index);
+    }
+    cv::Mat random_sampled_pixels;
+    for (int i = 0; i < random_indices.size(); ++i) {
+      random_sampled_pixels.push_back(reshaped_image.row(random_indices[i]));
+    }
+
+    cv::kmeans(random_sampled_pixels, color_count, labels,
                cv::TermCriteria(cv::TermCriteria::EPS + cv::TermCriteria::COUNT,
                                 10, 1.0),
                3, cv::KMEANS_PP_CENTERS, centers);
+
     centers.convertTo(centers, CV_8U);
     for (int i = 0; i < centers.rows; ++i) {
       cv::Vec3b color = centers.at<cv::Vec3b>(i);
@@ -38,9 +50,11 @@ QStringList ImageAnalyse::GrabPixelBit(QVariant image, int color_count) {
       dominat_colors.append(color_string);
     }
   });
+
   future.waitForFinished();
   return dominat_colors;
 }
+
 
 void ImageAnalyse::ComposeImage(const QVariant &picture,
                                 const QVariant &colors) {

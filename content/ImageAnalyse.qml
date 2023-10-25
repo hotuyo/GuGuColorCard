@@ -181,9 +181,9 @@ Item {
                 if (changed_path != "") {
                     editing_picture.source = ""
                     editing_picture.source = changed_path
+                    processed_picture_ = null
                     pending_picture_ = image_analyse.CreateQImage(
                                 editing_picture.source)
-                    processed_picture_ = null
                 }
             }
         }
