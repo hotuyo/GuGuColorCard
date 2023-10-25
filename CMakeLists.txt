@@ -8,7 +8,7 @@ find_package(Qt6 REQUIRED COMPONENTS Qml Quick Gui Core Widgets)
 
 qt_standard_project_setup()
 
-qt_add_executable(GuGuColorCard main.cpp gugu.icns) #MyIcon.icns 图标
+qt_add_executable(GuGuColorCard main.cpp gugu.icns)
 
 target_link_libraries(GuGuColorCard PRIVATE Qt6::Qml Qt6::Quick Qt6::Core Qt6::Gui Qt6::Widgets)
 
@@ -18,12 +18,8 @@ qt6_add_qml_module(${CMAKE_PROJECT_NAME}
 		QML_FILES main.qml
 )
 
-# 设置图标
 set_source_files_properties(gugu.icns PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
 set(MACOSX_BUNDLE_ICON_FILE gugu.icns)
-#
-
-
 
 add_subdirectory(content)
 target_link_libraries(${CMAKE_PROJECT_NAME} PRIVATE
@@ -36,8 +32,6 @@ set_target_properties(GuGuColorCard PROPERTIES
 		WIN32_EXECUTABLE TRUE
 		MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist.in
 )
-
-
 
 set_target_properties(GuGuColorCard PROPERTIES MACOSX_BUNDLE TRUE WIN32_EXECUTABLE	TRUE)
 
