@@ -9,20 +9,20 @@
 int main(int argc, char *argv[])
 {
 
-    QApplication app(argc, argv);
-    QString tempDirPath = QCoreApplication::applicationDirPath() + "/temp";
-    QQmlApplicationEngine engine;
-    QDir dir;
-    if (!dir.exists(tempDirPath)) {
-        dir.mkdir(tempDirPath);
-    }
-    const QUrl url(u"qrc:Main/main.qml"_qs);
-    engine.addImportPath(":/");
-    engine.addImportPath("qrc:");
-    engine.load(url);
-    if (engine.rootObjects().isEmpty()) {
-        return -1;
-    }
-    return app.exec();
+  QApplication app(argc, argv);
+  QString tempDirPath = QCoreApplication::applicationDirPath() + "/temp";
+  QQmlApplicationEngine engine;
+  QDir dir;
+  if (!dir.exists(tempDirPath)) {
+      dir.mkdir(tempDirPath);
+  }
+  const QUrl url(u"qrc:Main/main.qml"_qs);
+  engine.addImportPath(":/");
+  engine.addImportPath("qrc:");
+  engine.load(url);
+  if (engine.rootObjects().isEmpty()) {
+      return -1;
+  }
+  return app.exec();
 }
 
