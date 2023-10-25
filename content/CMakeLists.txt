@@ -3,7 +3,7 @@ qt6_add_qml_module(content
     URI "content"
 		VERSION 1.0
 		QML_FILES
-		ImportImage.qml
+		ImageAnalyse.qml
 )
 
 #qt6_add_resources(

@@ -13,5 +13,5 @@ ApplicationWindow {
     maximumWidth: 640
     maximumHeight: 480
 
-    ImportImage {}
+    ImageAnalyse {}
 }
