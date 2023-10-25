@@ -1,0 +1,7 @@
+module ImageAnalyse
+linktarget ImageAnalyseplugin
+optional plugin ImageAnalyseplugin
+classname ImageAnalysePlugin
+typeinfo ImageAnalyse.qmltypes
+prefer :/ImageAnalyse/
+

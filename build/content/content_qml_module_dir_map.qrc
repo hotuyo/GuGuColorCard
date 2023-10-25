@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/">
+    <file alias="/content">/Users/tuhoo/Desktop/GuGuColorCardApp/GuGuColorCard/build/content</file>
+
+  </qresource>
+</RCC>

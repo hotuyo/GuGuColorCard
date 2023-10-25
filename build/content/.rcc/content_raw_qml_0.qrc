@@ -1,0 +1,6 @@
+<RCC>
+  <qresource prefix="/content/">
+    <file alias="ImageAnalyse.qml">/Users/tuhoo/Desktop/GuGuColorCardApp/GuGuColorCard/content/ImageAnalyse.qml</file>
+  </qresource>
+</RCC>
+

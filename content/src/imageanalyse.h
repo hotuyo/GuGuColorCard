@@ -30,18 +30,16 @@ class ImageAnalyse: public QObject
  public:
   explicit ImageAnalyse(QObject *parent = nullptr);
   ~ImageAnalyse();
-  Q_INVOKABLE QStringList GrabPixelBit(QVariant image_path, int color_count = 6);
-  Q_INVOKABLE void ComposeImage(const QVariant &picture, const QVariant &colors);
-  Q_INVOKABLE QVariant CreateQImage(const QString &path);
   Q_INVOKABLE QMap<QString, int> HexToRGB(const QString&);
-  Q_INVOKABLE void SaveImage(const QVariant processed_picture);
+  Q_INVOKABLE QStringList GrabPixelBit(QVariant image_path, int color_count = 6);
   Q_INVOKABLE QString OpenImageFileDialog();
+  Q_INVOKABLE QVariant CreateQImage(const QString &path);
+  Q_INVOKABLE void ComposeImage(const QVariant &picture, const QVariant &colors);
+  Q_INVOKABLE void SaveImage(const QVariant processed_picture);
 
  signals:
   void signal_ComposeImage(QString image_path);
   void signal_EmitComposeImage(QImage emit_image);
-
-
 };
 
 #endif // IMAGEANALYSE_H

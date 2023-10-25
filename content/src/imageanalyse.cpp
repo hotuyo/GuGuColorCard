@@ -13,7 +13,7 @@ QVariant ImageAnalyse::CreateQImage(const QString &path) {
 }
 
 QStringList ImageAnalyse::GrabPixelBit(QVariant image, int color_count) {
-  QImage q_image = image.value<QImage>();
+  QImage q_image = qvariant_cast<QImage>(image);
   cv::Mat cv_image(q_image.height(), q_image.width(), CV_8UC4, q_image.bits(),
                    q_image.bytesPerLine());
   cv::cvtColor(cv_image, cv_image, cv::COLOR_RGB2BGR);
@@ -34,12 +34,10 @@ QStringList ImageAnalyse::GrabPixelBit(QVariant image, int color_count) {
     for (int i = 0; i < random_indices.size(); ++i) {
       random_sampled_pixels.push_back(reshaped_image.row(random_indices[i]));
     }
-
     cv::kmeans(random_sampled_pixels, color_count, labels,
                cv::TermCriteria(cv::TermCriteria::EPS + cv::TermCriteria::COUNT,
                                 10, 1.0),
                3, cv::KMEANS_PP_CENTERS, centers);
-
     centers.convertTo(centers, CV_8U);
     for (int i = 0; i < centers.rows; ++i) {
       cv::Vec3b color = centers.at<cv::Vec3b>(i);
@@ -50,17 +48,14 @@ QStringList ImageAnalyse::GrabPixelBit(QVariant image, int color_count) {
       dominat_colors.append(color_string);
     }
   });
-
   future.waitForFinished();
   return dominat_colors;
 }
-
 
 void ImageAnalyse::ComposeImage(const QVariant &picture,
                                 const QVariant &colors) {
   QImage origian_image = picture.value<QImage>();
   if (origian_image.isNull()) {
-    qDebug() << "Failed to load image";
     return;
   }
   int desired_width = 1600;
@@ -81,12 +76,9 @@ void ImageAnalyse::ComposeImage(const QVariant &picture,
   int circle_radius = white_bar_height / 4;
   int circle_spacing = origian_image.width() / 25;
   int first_circle_x =
-      (new_image.width() -
-       (colors.toList().size() * (circle_radius * 2 + circle_spacing) -
-        circle_spacing)) /
-      2;
-  int circle_y =
-      origian_image.height() + (white_bar_height - circle_radius * 2) / 2;
+      (new_image.width() - (colors.toList().size() * (circle_radius * 2 + circle_spacing)
+            - circle_spacing)) / 2;
+  int circle_y = origian_image.height() + (white_bar_height - circle_radius * 2) / 2;
   QFont font;
   int font_size = circle_radius / 2;
   font.setPointSize(font_size);
@@ -125,9 +117,9 @@ QMap<QString, int> ImageAnalyse::HexToRGB(const QString &hex_color) {
 }
 
 QString ImageAnalyse::OpenImageFileDialog() {
-  QString file_path =
-      QFileDialog::getOpenFileName(nullptr, tr("Select Image File"), QString(),
-                                   tr("Images (*.jpg *.png *.jpeg)"));
+  QString file_path = QFileDialog::getOpenFileName(nullptr, tr("Select Image File"),
+                                            QString(),
+                                            tr("Images (*.jpg *.png *.jpeg)"));
 
   if (!file_path.isEmpty()) {
     return "file://" + file_path;
@@ -138,8 +130,9 @@ QString ImageAnalyse::OpenImageFileDialog() {
 
 void ImageAnalyse::SaveImage(const QVariant processed_picture) {
   QImage image = qvariant_cast<QImage>(processed_picture);
-  QString fileName = QFileDialog::getSaveFileName(nullptr, tr("Save Image"), "",
-                                                  tr("Image (*.jpg)"));
+  QString fileName = QFileDialog::getSaveFileName(nullptr, tr("Save Image"),
+                                            "",
+                                            tr("Image (*.jpg)"));
   if (!fileName.isEmpty()) {
     image.save(fileName, "JPG");
   }
