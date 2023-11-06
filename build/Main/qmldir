@@ -1,4 +1,0 @@
-module Main
-typeinfo GuGuColorCard.qmltypes
-prefer :/Main/
-

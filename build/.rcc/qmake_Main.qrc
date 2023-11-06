@@ -1,6 +1,0 @@
-<RCC>
-  <qresource prefix="/Main">
-    <file alias="qmldir">/Users/tuhoo/Desktop/GuGuColorCardApp/GuGuColorCard/build/Main/qmldir</file>
-  </qresource>
-</RCC>
-
